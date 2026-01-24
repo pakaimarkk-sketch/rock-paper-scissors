@@ -55,5 +55,6 @@ if (HumanScore > ComputerScore) {
     console.log("It's a draw!");
 }
 }
+
 playGame();
 
