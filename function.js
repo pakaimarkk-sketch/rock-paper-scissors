@@ -1,36 +1,66 @@
-let HumanScore = 0
-let ComputerScore = 0
+let result = document.querySelector('#result');
+let start = document.querySelector('#start');
+let choice = document.querySelector('#menu');
+let score = document.querySelector('#score');
+let humanScore = 0
+let computerScore = 0
+let choiceButtons = choice.querySelectorAll('button');
+
+choiceButtons.forEach(btn => btn.disabled = true);
+
+start.addEventListener('click', () => {
+    humanScore = 0;
+    computerScore = 0;
+    result.textContent = '';
+    score.textContent = 'Player Score: 0 Computer Score: 0';
+    start.textContent = 'Restart'
+    choiceButtons.forEach(btn => btn.disabled = false);
+});
 
 function getComputerChoice() {
-   const choices = ["rock", "paper", "scissors"];
+    const choices = ["rock", "paper", "scissors"];
     return choices[Math.floor(Math.random() * 3)];
 };
 
-let choice = document.querySelector('#menu');
-
 choice.addEventListener('click', (event) => {
-    let humanChoice = event.target.id;
-    playRound(humanChoice, getComputerChoice());
+    let button = event.target.closest('button'); 
+    if (!button) return; 
+    let humanChoice = button.id; 
+         playRound(humanChoice, getComputerChoice());
+         updateScore();  
+         checkGameOver()      
 });
 
 function playRound(humanChoice, computerChoice) {
-     if ( 
+    if ( 
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")
     ) {
-        HumanScore++    
-        console.log(`You win ${humanChoice} beats ${computerChoice}.`)           
-    } 
-    else if (humanChoice === computerChoice) {
-        console.log("It's a draw!") 
+        humanScore++
+        updateResult(`You win ${humanChoice} beats ${computerChoice}.`);
+            
+    } else if (humanChoice === computerChoice) {
+        updateResult("It's a draw!"); 
+    } else {
+        computerScore++
+        updateResult(`You lose! ${computerChoice} beats ${humanChoice}`);
+    };  
+}; 
+
+function updateScore() {
+    score.textContent = `Player score: ${humanScore} - Computer score: ${computerScore}`;       
+};
+
+function updateResult(message) {
+    result.textContent = message;
+};
+
+function checkGameOver() {
+    if (humanScore === 5 || computerScore === 5) {
+        for (let i = 0; i < choiceButtons.length; i++) {
+            choiceButtons[i].disabled = true;
+        }
+        start.textContent = 'Restart';
     }
-    else {
-        ComputerScore++
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
-    }   
-
-};           
-
-
-
+}
