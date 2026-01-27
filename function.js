@@ -2,8 +2,8 @@ let result = document.querySelector('#result');
 let start = document.querySelector('#start');
 let choice = document.querySelector('#menu');
 let score = document.querySelector('#score');
-let humanScore = 0
-let computerScore = 0
+let humanScore = 0;
+let computerScore = 0;
 let choiceButtons = choice.querySelectorAll('button');
 
 choiceButtons.forEach(btn => btn.disabled = true);
@@ -28,7 +28,7 @@ choice.addEventListener('click', (event) => {
     let humanChoice = button.id; 
          playRound(humanChoice, getComputerChoice());
          updateScore();  
-         checkGameOver()      
+         checkGameOver();      
 });
 
 function playRound(humanChoice, computerChoice) {
