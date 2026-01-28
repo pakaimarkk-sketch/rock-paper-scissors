@@ -12,13 +12,13 @@ start.addEventListener('click', () => {
     humanScore = 0;
     computerScore = 0;
     result.textContent = '';
-    score.textContent = 'Player Score: 0 Computer Score: 0';
-    start.textContent = 'Restart'
+    score.textContent = 'Pontszámod: 0 Gép pontszáma: 0';
+    start.textContent = 'Újrakezd'
     choiceButtons.forEach(btn => btn.disabled = false);
 });
 
 function getComputerChoice() {
-    const choices = ["rock", "paper", "scissors"];
+    const choices = ["kő", "papír", "olló"];
     return choices[Math.floor(Math.random() * 3)];
 };
 
@@ -33,23 +33,28 @@ choice.addEventListener('click', (event) => {
 
 function playRound(humanChoice, computerChoice) {
     if ( 
-        (humanChoice === "rock" && computerChoice === "scissors") ||
-        (humanChoice === "paper" && computerChoice === "rock") ||
-        (humanChoice === "scissors" && computerChoice === "paper")
+        (humanChoice === "papír" && computerChoice === "kő") ||
+        (humanChoice === "olló" && computerChoice === "papír")
     ) {
         humanScore++
-        updateResult(`You win ${humanChoice} beats ${computerChoice}.`);
-            
-    } else if (humanChoice === computerChoice) {
-        updateResult("It's a draw!"); 
+        updateResult(`Nyertél! az ${humanChoice} nyer a ${computerChoice} ellen.`);
+    } if ((humanChoice === "kő" && computerChoice === "olló")) {
+        humanScore++
+        updateResult(`Nyertél! a ${humanChoice} nyer az ${computerChoice} ellen.`);
+    } if ((computerChoice === "kő") && (humanChoice === "olló")) {
+        computerScore++
+        updateResult(`Vesztettél! a ${computerChoice} nyer az ${humanChoice} ellen.`);
+    }
+     else if (humanChoice === computerChoice) {
+        updateResult("Döntetlen!"); 
     } else {
         computerScore++
-        updateResult(`You lose! ${computerChoice} beats ${humanChoice}`);
-    };  
+        updateResult(`Vesztettél! az ${computerChoice} nyer a ${humanChoice} ellen.`);
+    }
 }; 
 
 function updateScore() {
-    score.textContent = `Player score: ${humanScore} - Computer score: ${computerScore}`;       
+    score.textContent = `Pontszámod: ${humanScore} - Gép pontszáma: ${computerScore}`;       
 };
 
 function updateResult(message) {
@@ -61,6 +66,12 @@ function checkGameOver() {
         for (let i = 0; i < choiceButtons.length; i++) {
             choiceButtons[i].disabled = true;
         }
-        start.textContent = 'Restart';
+    if (humanScore === 5) {
+        updateResult("Nyertél!")
+    }
+    if (computerScore === 5) {
+        updateResult("Vesztettél!")
+    }
+        start.textContent = 'Újrakezd';
     }
 }
