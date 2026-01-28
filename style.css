@@ -51,6 +51,8 @@ button {
     font-weight: 600;
     flex-flow: wrap;
     align-self: center;
+    white-space: pre-line;
+    text-align: center;
 }
 
 #score {
@@ -59,4 +61,6 @@ button {
     font-weight: 600;
     align-items: center;
     justify-self: center;
+    white-space: pre-line;
+    text-align: center;
 }

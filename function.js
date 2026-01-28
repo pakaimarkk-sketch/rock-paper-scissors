@@ -12,7 +12,7 @@ start.addEventListener('click', () => {
     humanScore = 0;
     computerScore = 0;
     result.textContent = '';
-    score.textContent = 'Pontszámod: 0 Gép pontszáma: 0';
+    score.textContent = 'Pontszámod: 0\nGép pontszáma: 0';
     start.textContent = 'Újrakezd'
     choiceButtons.forEach(btn => btn.disabled = false);
 });
@@ -32,29 +32,28 @@ choice.addEventListener('click', (event) => {
 });
 
 function playRound(humanChoice, computerChoice) {
-    if ( 
+    if (humanChoice === computerChoice) {
+        updateResult("Döntetlen!");
+        return;
+}   if (
         (humanChoice === "papír" && computerChoice === "kő") ||
-        (humanChoice === "olló" && computerChoice === "papír")
+        (humanChoice === "olló" && computerChoice === "papír") ||
+        (humanChoice === "kő" && computerChoice === "olló")
     ) {
-        humanScore++
-        updateResult(`Nyertél! az ${humanChoice} nyer a ${computerChoice} ellen.`);
-    } if ((humanChoice === "kő" && computerChoice === "olló")) {
-        humanScore++
-        updateResult(`Nyertél! a ${humanChoice} nyer az ${computerChoice} ellen.`);
-    } if ((computerChoice === "kő") && (humanChoice === "olló")) {
-        computerScore++
-        updateResult(`Vesztettél! a ${computerChoice} nyer az ${humanChoice} ellen.`);
-    }
-     else if (humanChoice === computerChoice) {
-        updateResult("Döntetlen!"); 
-    } else {
-        computerScore++
-        updateResult(`Vesztettél! az ${computerChoice} nyer a ${humanChoice} ellen.`);
-    }
-}; 
+        humanScore++;
+        updateResult(
+            `Nyertél!\n${article(humanChoice)} ${humanChoice} legyőzi ${article(computerChoice)} ${computerChoice}-t.`
+        );
+        return;
+    } computerScore++;
+    updateResult(
+        `Vesztettél!\n${article(computerChoice)} ${computerChoice} legyőzi ${article(humanChoice)} ${humanChoice}-t.`
+    );
+}
+
 
 function updateScore() {
-    score.textContent = `Pontszámod: ${humanScore} - Gép pontszáma: ${computerScore}`;       
+    score.textContent = `Pontszámod: ${humanScore} \nGép pontszáma: ${computerScore}`;       
 };
 
 function updateResult(message) {
@@ -67,11 +66,16 @@ function checkGameOver() {
             choiceButtons[i].disabled = true;
         }
     if (humanScore === 5) {
-        updateResult("Nyertél!")
+        updateResult("Megnyerted a mérkőzést!")
     }
     if (computerScore === 5) {
-        updateResult("Vesztettél!")
+        updateResult("Elvesztetted a mérkőzést!")
     }
         start.textContent = 'Újrakezd';
     }
+}
+
+function article(word) {
+    return ["a", "á", "e", "é", "i", "í", "o", "ó", "ö", "ő", "u", "ú", "ü", "ű"]
+        .includes(word[0].toLowerCase()) ? "az" : "a";
 }
